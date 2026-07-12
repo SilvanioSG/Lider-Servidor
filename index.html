@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manual do Líder Servidor – Silvanio Gois</title>
+  <!-- Meta tags para LinkedIn/Facebook -->
+  <meta property="og:title" content="Manual do Líder Servidor – por Silvanio Gois" />
+  <meta property="og:description" content="Um guia prático e pessoal sobre liderança servidora, com pilares, métricas, cases e reflexões para gestores que querem transformar suas equipes." />
+  <meta property="og:image" content="https://www.silvaniogois.com.br/img/gestao_sg.png" />
+  <meta property="og:url" content="https://www.silvaniogois.com.br/manual-lider-servidor" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <!-- Google Fonts (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ----- RESET E BASE ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f2f6fc;
+      color: #1e2a3a;
+      line-height: 1.7;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 36px;
+      box-shadow: 0 30px 60px -20px rgba(0, 20, 40, 0.12), 0 10px 30px -10px rgba(0, 0, 0, 0.04);
+      padding: 2.8rem 3rem;
+      transition: all 0.25s;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    @media (max-width: 700px) {
+      body { padding: 1rem 0.5rem; }
+      .container { padding: 1.8rem 1.2rem; border-radius: 28px; }
+    }
+
+    /* ----- COR PREDOMINANTE ----- */
+    :root {
+      --primary: rgb(39, 98, 141);
+      --primary-dark: #1f5a7a;
+      --primary-light: rgba(39, 98, 141, 0.08);
+      --primary-glow: rgba(39, 98, 141, 0.15);
+    }
+    .cor-primary { color: var(--primary); }
+    .bg-primary { background-color: var(--primary); }
+    .border-primary { border-color: var(--primary); }
+
+    /* ----- LAYOUT COM MENU LATERAL (DESKTOP) ----- */
+    @media (min-width: 1024px) {
+      .container {
+        grid-template-columns: 240px 1fr;
+        gap: 2rem 2.5rem;
+        align-items: start;
+      }
+      .cabecalho { grid-column: 1 / -1; }
+      .resumo-executivo { grid-column: 1 / -1; }
+      .diagnostico { grid-column: 1 / -1; }
+      .indice {
+        position: sticky;
+        top: 2rem;
+        align-self: start;
+        margin-bottom: 0;
+        background: var(--primary-light);
+        padding: 1.5rem 1.2rem;
+        border-radius: 24px;
+        border-left: 6px solid var(--primary);
+      }
+      .indice ul {
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+      .indice ul li {
+        font-size: 0.9rem;
+      }
+      .conteudo-principal {
+        grid-column: 2 / 3;
+      }
+      .chamada-final, .rodape {
+        grid-column: 1 / -1;
+      }
+    }
+
+    /* ----- BARRA DE PROGRESSO ----- */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 5px;
+      background: var(--primary);
+      width: 0%;
+      z-index: 1000;
+      transition: width 0.1s;
+      box-shadow: 0 2px 8px rgba(39,98,141,0.3);
+    }
+
+    /* ----- CABEÇALHO ----- */
+    .cabecalho {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2rem 2.8rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid var(--primary-light);
+      margin-bottom: 2rem;
+    }
+    .cabecalho-foto {
+      flex-shrink: 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 50%;
+      box-shadow: 0 8px 20px -6px rgba(39, 98, 141, 0.2);
+      position: relative;
+    }
+    .cabecalho-foto::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), #6ab0d6);
+      z-index: -1;
+      opacity: 0.3;
+      transition: opacity 0.3s;
+    }
+    .cabecalho-foto:hover::after {
+      opacity: 0.6;
+    }
+    .cabecalho-foto:hover {
+      transform: scale(1.04) rotate(-1deg);
+      box-shadow: 0 12px 28px -8px rgba(39, 98, 141, 0.35);
+    }
+    .cabecalho-foto img {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--primary);
+      display: block;
+      transition: border-color 0.3s;
+    }
+    .cabecalho-foto:hover img {
+      border-color: var(--primary-dark);
+    }
+
+    .cabecalho-info {
+      flex: 1;
+      min-width: 220px;
+    }
+    .cabecalho-info h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--primary);
+      margin-bottom: 0.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .cabecalho-info h1 i {
+      font-size: 2rem;
+      color: var(--primary);
+      opacity: 0.8;
+    }
+    .cabecalho-info .subtitulo {
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: #2c3e50;
+      margin-bottom: 0.3rem;
+    }
+    .cabecalho-info .nome {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1e2a3a;
+      margin-top: 0.2rem;
+    }
+    .cabecalho-info .contato {
+      margin-top: 0.7rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    .cabecalho-info .contato a,
+    .cabecalho-info .contato button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--primary);
+      color: #fff;
+      text-decoration: none;
+      padding: 0.6rem 1.6rem;
+      border-radius: 60px;
+      font-weight: 500;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 12px -2px rgba(39, 98, 141, 0.3);
+      font-family: inherit;
+    }
+    .cabecalho-info .contato a:hover,
+    .cabecalho-info .contato button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px -4px rgba(39, 98, 141, 0.4);
+    }
+    .cabecalho-info .contato a i,
+    .cabecalho-info .contato button i {
+      font-size: 1.3rem;
+    }
+    .btn-download {
+      background: #2c3e50 !important;
+      box-shadow: 0 4px 12px -2px rgba(44, 62, 80, 0.3) !important;
+    }
+    .btn-download:hover {
+      background: #1a2a3a !important;
+    }
+
+    /* ----- RESUMO EXECUTIVO ----- */
+    .resumo-executivo {
+      background: linear-gradient(135deg, #eef6fb 0%, #f9fcff 100%);
+      border-radius: 28px;
+      padding: 1.5rem 2rem;
+      border-left: 8px solid var(--primary);
+      margin-bottom: 2.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    .resumo-executivo .resumo-item {
+      flex: 1 1 200px;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .resumo-executivo .resumo-item i {
+      font-size: 1.8rem;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+    .resumo-executivo .resumo-item span {
+      font-weight: 500;
+      color: #1e2a3a;
+      font-size: 0.95rem;
+    }
+    .resumo-executivo .resumo-item strong {
+      color: var(--primary);
+    }
+    @media (max-width: 700px) {
+      .resumo-executivo { flex-direction: column; align-items: stretch; }
+    }
+
+    /* ----- DIAGNÓSTICO RÁPIDO ----- */
+    .diagnostico {
+      background: #f7faff;
+      border-radius: 28px;
+      padding: 2rem 2.2rem;
+      margin-bottom: 2.5rem;
+      border: 1px solid rgba(39,98,141,0.1);
+    }
+    .diagnostico h2 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .diagnostico .pergunta {
+      margin: 1.2rem 0 0.8rem;
+      font-weight: 600;
+      color: #1e2a3a;
+    }
+    .diagnostico .opcoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+    .diagnostico .opcoes label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 400;
+      cursor: pointer;
+    }
+    .diagnostico .opcoes input[type="radio"] {
+      accent-color: var(--primary);
+      width: 1rem;
+      height: 1rem;
+    }
+    .diagnostico .btn-diagnostico {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 0.5rem;
+      font-family: inherit;
+    }
+    .diagnostico .btn-diagnostico:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    .diagnostico .resultado {
+      margin-top: 1.5rem;
+      padding: 1rem 1.5rem;
+      border-radius: 20px;
+      background: #e9f2fa;
+      display: none;
+    }
+    .diagnostico .resultado.visivel {
+      display: block;
+    }
+    .diagnostico .resultado strong {
+      color: var(--primary);
+    }
+
+    /* ----- ÍNDICE (sumário) ----- */
+    .indice {
+      background: var(--primary-light);
+      padding: 1.8rem 2.2rem;
+      border-radius: 28px;
+      margin-bottom: 3rem;
+      border-left: 6px solid var(--primary);
+      transition: background 0.2s;
+    }
+    .indice:hover {
+      background: rgba(39, 98, 141, 0.12);
+    }
+    .indice h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--primary);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .indice ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 2rem;
+      padding: 0;
+    }
+    .indice ul li {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    .indice ul li a {
+      color: #1e2a3a;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.15s, color 0.15s;
+      padding: 0.1rem 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .indice ul li a::before {
+      content: "▸";
+      color: var(--primary);
+      font-size: 0.8rem;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .indice ul li a:hover::before {
+      opacity: 1;
+    }
+    .indice ul li a:hover {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+    .indice ul li span {
+      font-weight: 400;
+      color: #5a6b7c;
+      margin-right: 0.3rem;
+    }
+
+    /* ----- CONTEÚDO PRINCIPAL (seções) ----- */
+    .conteudo-principal {
+      overflow: hidden;
+    }
+
+    section {
+      margin-bottom: 3.8rem;
+      scroll-margin-top: 2rem;
+      transition: all 0.2s;
+    }
+    section h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+      border-left: 6px solid var(--primary);
+      padding-left: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    section h2 i {
+      font-size: 1.8rem;
+      opacity: 0.8;
+    }
+    section h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #1e2a3a;
+      margin: 1.8rem 0 0.8rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    section h3 i {
+      color: var(--primary);
+      font-size: 1.3rem;
+      width: 1.8rem;
+      text-align: center;
+    }
+    section h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin: 1.4rem 0 0.5rem 0;
+    }
+    section p {
+      margin-bottom: 1.2rem;
+      color: #253544;
+    }
+
+    /* Destaques / Cards */
+    .destaque-box {
+      background: #f7faff;
+      border-radius: 24px;
+      padding: 1.8rem 2.2rem;
+      margin: 1.8rem 0;
+      border: 1px solid rgba(39, 98, 141, 0.1);
+      border-left: 8px solid var(--primary);
+      transition: transform 0.2s, box-shadow 0.3s, background 0.2s;
+    }
+    .destaque-box:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px -8px rgba(39, 98, 141, 0.12);
+      background: #faffff;
+    }
+    .destaque-box strong {
+      color: var(--primary);
+    }
+    .destaque-box i {
+      color: var(--primary);
+      margin-right: 0.4rem;
+    }
+
+    .box-aviso {
+      border-left-color: #c0392b;
+    }
+    .box-aviso i {
+      color: #c0392b;
+    }
+
+    /* Listas com ícones */
+    .lista-icones {
+      list-style: none;
+      padding: 0;
+      margin: 1.2rem 0 1.8rem;
+    }
+    .lista-icones li {
+      padding: 0.6rem 0 0.6rem 2.2rem;
+      position: relative;
+      font-size: 1rem;
+      color: #1e2a3a;
+      border-bottom: 1px solid #f0f4f9;
+    }
+    .lista-icones li:last-child {
+      border-bottom: none;
+    }
+    .lista-icones li i {
+      position: absolute;
+      left: 0;
+      top: 0.7rem;
+      color: var(--primary);
+      font-size: 1.2rem;
+      width: 1.8rem;
+      text-align: center;
+    }
+
+    /* Grid de pilares */
+    .grid-pilares {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.5rem 0 2rem;
+    }
+    @media (max-width: 650px) {
+      .grid-pilares { grid-template-columns: 1fr; }
+    }
+    .grid-pilares .item {
+      background: #f2f8fe;
+      padding: 1.2rem 1.5rem;
+      border-radius: 20px;
+      border-left: 5px solid var(--primary);
+      transition: transform 0.2s, box-shadow 0.25s, background 0.2s;
+      cursor: default;
+    }
+    .grid-pilares .item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px -6px rgba(39, 98, 141, 0.15);
+      background: #f4faff;
+    }
+    .grid-pilares .item strong {
+      color: var(--primary);
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+    .grid-pilares .item strong i {
+      margin-right: 0.5rem;
+    }
+    .grid-pilares .item span {
+      font-size: 0.95rem;
+      color: #2e4053;
+    }
+
+    /* Tabela de métricas */
+    .tabela-metricas {
+      overflow-x: auto;
+      margin: 1.5rem 0 2rem;
+      border-radius: 20px;
+      border: 1px solid #e6edf4;
+      transition: box-shadow 0.2s;
+    }
+    .tabela-metricas:hover {
+      box-shadow: 0 4px 16px rgba(39, 98, 141, 0.06);
+    }
+    .tabela-metricas table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      background: #fff;
+    }
+    .tabela-metricas th {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      padding: 0.9rem 1.2rem;
+      text-align: left;
+    }
+    .tabela-metricas td {
+      padding: 0.9rem 1.2rem;
+      border-bottom: 1px solid #eef4f9;
+      vertical-align: top;
+    }
+    .tabela-metricas tr:last-child td {
+      border-bottom: none;
+    }
+    .tabela-metricas tr:hover td {
+      background: #f6faff;
+    }
+    .tabela-metricas td i {
+      color: var(--primary);
+      margin-right: 0.4rem;
+    }
+
+    /* Cards de referências e cases */
+    .grid-referencias {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .grid-referencias .ref-item {
+      background: #f4f9ff;
+      padding: 1.2rem 1.8rem;
+      border-radius: 24px;
+      flex: 1 1 200px;
+      border: 1px solid rgba(39, 98, 141, 0.08);
+      transition: transform 0.2s, box-shadow 0.25s, background 0.2s;
+    }
+    .grid-referencias .ref-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px -6px rgba(39, 98, 141, 0.12);
+      background: #f7fcff;
+    }
+    .grid-referencias .ref-item strong {
+      color: var(--primary);
+      display: block;
+      font-size: 1rem;
+    }
+    .grid-referencias .ref-item span {
+      font-size: 0.9rem;
+      color: #2f4055;
+    }
+    .grid-referencias .ref-item i {
+      color: var(--primary);
+      margin-right: 0.4rem;
+    }
+
+    .grid-cases {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .grid-cases .case {
+      background: #f7faff;
+      padding: 1.2rem 1.8rem;
+      border-radius: 24px;
+      flex: 1 1 220px;
+      border-left: 6px solid var(--primary);
+      transition: transform 0.2s, box-shadow 0.25s, background 0.2s;
+    }
+    .grid-cases .case:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px -6px rgba(39, 98, 141, 0.12);
+      background: #faffff;
+    }
+    .grid-cases .case strong {
+      color: var(--primary);
+    }
+    .grid-cases .case i {
+      color: var(--primary);
+      margin-right: 0.5rem;
+    }
+
+    /* Tabela de armadilhas (nova) */
+    .tabela-armadilhas {
+      overflow-x: auto;
+      margin: 1.5rem 0 2rem;
+      border-radius: 20px;
+      border: 1px solid #e6edf4;
+    }
+    .tabela-armadilhas table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      background: #fff;
+    }
+    .tabela-armadilhas th {
+      background: #c0392b;
+      color: #fff;
+      font-weight: 600;
+      padding: 0.8rem 1.2rem;
+      text-align: left;
+    }
+    .tabela-armadilhas td {
+      padding: 0.8rem 1.2rem;
+      border-bottom: 1px solid #eef4f9;
+      vertical-align: top;
+    }
+    .tabela-armadilhas tr:last-child td {
+      border-bottom: none;
+    }
+    .tabela-armadilhas tr:hover td {
+      background: #fdf6f5;
+    }
+    .tabela-armadilhas td i {
+      color: #c0392b;
+      margin-right: 0.4rem;
+    }
+
+    /* Plano de ação 30-60-90 */
+    .plano-acao {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 1.5rem 0 2rem;
+    }
+    .plano-acao .periodo {
+      background: #f4f9ff;
+      padding: 1.2rem 1.5rem;
+      border-radius: 24px;
+      border-top: 6px solid var(--primary);
+      transition: transform 0.2s, box-shadow 0.25s;
+    }
+    .plano-acao .periodo:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px -6px rgba(39, 98, 141, 0.12);
+    }
+    .plano-acao .periodo h4 {
+      margin-top: 0;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+    .plano-acao .periodo ul {
+      list-style: disc;
+      padding-left: 1.5rem;
+      margin: 0.5rem 0 0;
+    }
+    .plano-acao .periodo ul li {
+      margin-bottom: 0.4rem;
+      font-size: 0.95rem;
+    }
+
+    /* Glossário (accordion) */
+    .glossario {
+      margin: 2.5rem 0 1.5rem;
+      border-radius: 24px;
+      border: 1px solid #e6edf4;
+      overflow: hidden;
+    }
+    .glossario summary {
+      background: var(--primary-light);
+      padding: 1rem 2rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      transition: background 0.2s;
+      list-style: none;
+    }
+    .glossario summary::-webkit-details-marker {
+      display: none;
+    }
+    .glossario summary::after {
+      content: "▶";
+      margin-left: auto;
+      transition: transform 0.2s;
+    }
+    .glossario[open] summary::after {
+      transform: rotate(90deg);
+    }
+    .glossario summary:hover {
+      background: rgba(39, 98, 141, 0.15);
+    }
+    .glossario .conteudo-glossario {
+      padding: 1.5rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem 2rem;
+    }
+    @media (max-width: 600px) {
+      .glossario .conteudo-glossario {
+        grid-template-columns: 1fr;
+      }
+    }
+    .glossario .termo {
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .glossario .definicao {
+      color: #2f4055;
+      font-size: 0.95rem;
+    }
+
+    /* Chamada final */
+    .chamada-final {
+      background: var(--primary);
+      color: #fff;
+      padding: 2rem 2.5rem;
+      border-radius: 32px;
+      margin: 2.5rem 0 1.5rem;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+    .chamada-final:hover {
+      transform: scale(1.01);
+      box-shadow: 0 12px 32px -8px rgba(39, 98, 141, 0.3);
+    }
+    .chamada-final h3 {
+      color: #fff;
+      margin-top: 0;
+      font-weight: 600;
+    }
+    .chamada-final p {
+      color: rgba(255, 255, 255, 0.9);
+    }
+    .chamada-final a {
+      color: #fff;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      transition: opacity 0.2s;
+    }
+    .chamada-final a:hover {
+      opacity: 0.8;
+    }
+
+    /* Rodapé */
+    .rodape {
+      margin-top: 3.5rem;
+      padding-top: 2rem;
+      border-top: 2px solid var(--primary-light);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.95rem;
+      color: #3d5266;
+    }
+    .rodape .direitos {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .rodape .direitos i {
+      color: var(--primary);
+    }
+    .rodape .link-site a {
+      color: var(--primary);
+      font-weight: 500;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .rodape .link-site a:hover {
+      border-bottom-color: var(--primary);
+      color: var(--primary-dark);
+    }
+    .rodape .link-site i {
+      margin-right: 0.3rem;
+    }
+
+    /* Botão topo */
+    .btn-topo {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 52px;
+      height: 52px;
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(39, 98, 141, 0.25);
+      transition: opacity 0.3s, transform 0.2s, background 0.2s, box-shadow 0.2s;
+      opacity: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    .btn-topo.visivel {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .btn-topo:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 32px -4px rgba(39, 98, 141, 0.4);
+    }
+    .btn-topo:active {
+      transform: scale(0.95);
+    }
+
+    /* Texto menor com contraste melhorado */
+    .texto-menor {
+      font-size: 0.9rem;
+      color: #2c4a5e;
+    }
+
+    /* Foco visível para acessibilidade */
+    a:focus-visible, button:focus-visible, input:focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    /* Scroll suave */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Ajustes para o índice quando sticky */
+    @media (max-width: 1023px) {
+      .indice {
+        margin-bottom: 2.5rem;
+      }
+    }
+
+    /* ----- ESTILOS DE IMPRESSÃO (para PDF) ----- */
+    @media print {
+      body {
+        background: #fff;
+        padding: 0.5in;
+        font-size: 11pt;
+        line-height: 1.5;
+      }
+      .container {
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+        max-width: 100%;
+        display: block;
+      }
+      .indice {
+        background: #f0f4f9 !important;
+        border-left: 4px solid var(--primary);
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        position: static !important;
+      }
+      .indice ul {
+        flex-direction: row !important;
+        flex-wrap: wrap;
+        gap: 0.3rem 1.5rem;
+      }
+      .indice ul li {
+        font-size: 10pt;
+      }
+      .cabecalho {
+        border-bottom: 2px solid #ccc;
+        padding-bottom: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      .cabecalho-foto {
+        box-shadow: none;
+      }
+      .cabecalho-foto::after {
+        display: none;
+      }
+      .cabecalho-info .contato a,
+      .cabecalho-info .contato button {
+        background: #333 !important;
+        color: #fff !important;
+        box-shadow: none !important;
+        padding: 0.3rem 1rem;
+      }
+      .btn-download {
+        background: #333 !important;
+      }
+      .resumo-executivo {
+        background: #f4f9ff !important;
+        border-left: 4px solid var(--primary);
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      .diagnostico {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        padding: 1.2rem;
+        border-radius: 8px;
+      }
+      .diagnostico .btn-diagnostico {
+        background: #333;
+        color: #fff;
+      }
+      section {
+        margin-bottom: 2rem;
+        page-break-inside: avoid;
+      }
+      section h2 {
+        border-left: 4px solid var(--primary);
+        font-size: 16pt;
+      }
+      .destaque-box, .grid-pilares .item, .grid-referencias .ref-item,
+      .grid-cases .case, .plano-acao .periodo {
+        background: #f9f9f9 !important;
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+        transform: none !important;
+        page-break-inside: avoid;
+      }
+      .tabela-metricas, .tabela-armadilhas {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .tabela-metricas th {
+        background: var(--primary) !important;
+        color: #fff !important;
+      }
+      .tabela-armadilhas th {
+        background: #c0392b !important;
+        color: #fff !important;
+      }
+      .tabela-metricas td, .tabela-armadilhas td {
+        border-bottom: 1px solid #eee;
+      }
+      .chamada-final {
+        background: var(--primary) !important;
+        color: #fff !important;
+        padding: 1.5rem;
+        border-radius: 8px;
+      }
+      .chamada-final a {
+        color: #fff !important;
+      }
+      .glossario {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .glossario summary {
+        background: #f0f4f9;
+        color: var(--primary);
+      }
+      .glossario .conteudo-glossario {
+        grid-template-columns: 1fr 1fr;
+      }
+      .rodape {
+        border-top: 1px solid #ccc;
+        margin-top: 2rem;
+        padding-top: 1rem;
+        font-size: 9pt;
+      }
+      .btn-topo, #progress-bar {
+        display: none !important;
+      }
+      .rodape .link-site a {
+        color: var(--primary);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- BARRA DE PROGRESSO -->
+<div id="progress-bar"></div>
+
+<div class="container">
+
+  <!-- ===== CABEÇALHO ===== -->
+  <header class="cabecalho">
+    <div class="cabecalho-foto">
+      <img src="Gestão_SG.png" alt="Silvanio Gois" />
+    </div>
+    <div class="cabecalho-info">
+      <h1><i class="fas fa-people-group"></i> Manual do Líder Servidor</h1>
+      <div class="subtitulo">Da estratégia à operação, conectando processos, pessoas e resultados</div>
+      <div class="nome">Silvanio Gois</div>
+      <div class="contato">
+        <a href="https://wa.me/5513988301094" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-whatsapp"></i> Contato
+        </a>
+        <button class="btn-download" id="btnPrintPDF">
+          <i class="fas fa-file-pdf"></i> Baixar / Imprimir PDF
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== RESUMO EXECUTIVO ===== -->
+  <div class="resumo-executivo">
+    <div class="resumo-item">
+      <i class="fas fa-users"></i>
+      <span><strong>+40%</strong> de retenção de talentos</span>
+    </div>
+    <div class="resumo-item">
+      <i class="fas fa-hand-holding-heart"></i>
+      <span>Líder remove obstáculos, <strong>não dá ordens</strong></span>
+    </div>
+    <div class="resumo-item">
+      <i class="fas fa-brain"></i>
+      <span>Confiança construída com <strong>vulnerabilidade</strong></span>
+    </div>
+  </div>
+
+  <!-- ===== DIAGNÓSTICO RÁPIDO ===== -->
+  <section class="diagnostico" id="diagnostico">
+    <h2><i class="fas fa-clipboard-list"></i> Diagnóstico Rápido do Líder</h2>
+    <p>Responda às perguntas abaixo para descobrir seu perfil de liderança e identificar pontos de atenção.</p>
+
+    <div class="pergunta">1. Quando um colaborador comete um erro, qual é sua primeira reação?</div>
+    <div class="opcoes">
+      <label><input type="radio" name="q1" value="0" /> Buscar o culpado</label>
+      <label><input type="radio" name="q1" value="1" /> Analisar o processo e o contexto</label>
+      <label><input type="radio" name="q1" value="2" /> Apoiar o colaborador a aprender com o erro</label>
+    </div>
+
+    <div class="pergunta">2. Com que frequência você pergunta à equipe sobre os obstáculos que eles enfrentam?</div>
+    <div class="opcoes">
+      <label><input type="radio" name="q2" value="0" /> Raramente ou nunca</label>
+      <label><input type="radio" name="q2" value="1" /> Às vezes, em reuniões formais</label>
+      <label><input type="radio" name="q2" value="2" /> Semanalmente, de forma proativa</label>
+    </div>
+
+    <div class="pergunta">3. Você dedica tempo regular para desenvolver as habilidades dos seus liderados?</div>
+    <div class="opcoes">
+      <label><input type="radio" name="q3" value="0" /> Não, eles que se virem</label>
+      <label><input type="radio" name="q3" value="1" /> Quando sobra tempo</label>
+      <label><input type="radio" name="q3" value="2" /> Sim, tenho um plano de desenvolvimento para cada um</label>
+    </div>
+
+    <button class="btn-diagnostico" id="btnDiagnostico">Ver meu perfil</button>
+
+    <div class="resultado" id="resultadoDiagnostico">
+      <p><i class="fas fa-chart-pie" style="color:var(--primary);"></i> <strong>Resultado:</strong> <span id="diagnosticoTexto"></span></p>
+    </div>
+  </section>
+
+  <!-- ===== ÍNDICE (sticky sidebar em desktop) ===== -->
+  <nav class="indice" aria-label="Sumário">
+    <h2><i class="fas fa-list-ul"></i> Índice</h2>
+    <ul>
+      <li><span>1.</span> <a href="#diferencial">Diferencial</a></li>
+      <li><span>2.</span> <a href="#pilares">Pilares</a></li>
+      <li><span>3.</span> <a href="#emocional">Emocional</a></li>
+      <li><span>4.</span> <a href="#implementacao">Implementação</a></li>
+      <li><span>5.</span> <a href="#plano-acao">Plano 30-60-90</a></li>
+      <li><span>6.</span> <a href="#metricas">Métricas</a></li>
+      <li><span>7.</span> <a href="#referencias">Referências</a></li>
+      <li><span>8.</span> <a href="#armadilhas">Armadilhas</a></li>
+      <li><span>9.</span> <a href="#glossario">Glossário</a></li>
+    </ul>
+  </nav>
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <div class="conteudo-principal">
+
+    <!-- INTRODUÇÃO PESSOAL -->
+    <section style="margin-bottom: 2.8rem;">
+      <p style="font-size: 1.15rem; font-weight: 400; color: #1e2a3a; background: #f9fcff; padding: 1.8rem 2rem; border-radius: 28px; border: 1px solid rgba(39,98,141,0.06);">
+        <i class="fas fa-quote-left" style="color: var(--primary); font-size: 2rem; vertical-align: middle; margin-right: 0.4rem;"></i>
+        Ao longo de mais de uma década em ambientes de alta pressão, aprendi que o verdadeiro papel de um líder não é mandar, mas <strong>servir</strong>.
+        Este estudo é o resultado de erros, acertos e muitas reflexões. Não é uma receita pronta, mas um convite para repensarmos a forma como conduzimos pessoas,
+        tomamos decisões e, acima de tudo, como <strong>cuidamos uns dos outros</strong>.
+        Aqui compartilho uma visão pessoal, prática e sem filtros sobre o que significa ser um líder servidor — alguém que constrói autoridade pela confiança, e não pelo cargo.
+      </p>
+    </section>
+
+    <!-- ===== 1. DIFERENCIAL ===== -->
+    <section id="diferencial">
+      <h2><i class="fas fa-arrow-right"></i> 1. O Estilo e seu Diferencial Competitivo</h2>
+      <p>
+        Em minha experiência, a liderança servidora não é um modismo, mas uma <strong>subversão silenciosa</strong> da pirâmide organizacional.
+        Enquanto o modelo tradicional coloca o líder no topo, esperando que todos o sirvam, aqui o movimento é inverso:
+        o líder se coloca <strong>a serviço da equipe</strong>, removendo obstáculos, fornecendo recursos e criando um ambiente onde cada pessoa pode florescer.
+      </p>
+      <div class="destaque-box">
+        <p><i class="fas fa-bolt"></i> <strong>O grande diferencial?</strong> Enquanto a liderança autocrática ou transacional gera dependência, desgaste e, no limite, <em>burnout</em>, a liderança servidora cultiva <strong>autonomia e crescimento</strong>. O poder cede lugar à influência genuína — e essa influência é conquistada pelo respeito e pela utilidade que o líder entrega ao time.</p>
+        <p style="margin-top: 0.6rem;"><i class="fas fa-scale-balanced"></i> <strong>Poder vs. Autoridade:</strong> O poder se impõe; a autoridade servidora se conquista. E o resultado é um time que se mantém performático mesmo na ausência física do líder — porque aprendeu a confiar em si mesmo.</p>
+      </div>
+      <p>
+        <i class="fas fa-check-circle" style="color: var(--primary);"></i> <strong>Sustentabilidade:</strong> Times com alta performance e autogerenciáveis, que continuam entregando resultados mesmo quando o líder não está presente. Esse é o verdadeiro legado.
+      </p>
+    </section>
+
+    <!-- ===== 2. PILARES ===== -->
+    <section id="pilares">
+      <h2><i class="fas fa-columns"></i> 2. Parâmetros e Pilares Fundamentais</h2>
+      <p>
+        Para que a liderança servidora não seja confundida com passividade ou falta de pulso, ela precisa se ancorar em pilares claros. Na minha vivência, esses são os que fazem a diferença:
+      </p>
+      <div class="grid-pilares">
+        <div class="item"><strong><i class="fas fa-ear-listen"></i> Escuta Ativa (Deep Listening)</strong><span>Não ouvir apenas para responder, mas para compreender as necessidades explícitas e implícitas da equipe. É a arte de ouvir o que não foi dito.</span></div>
+        <div class="item"><strong><i class="fas fa-heart"></i> Empatia e Consciência</strong><span>Ler o ambiente político e emocional da empresa sem julgamento, entendendo o contexto de cada liderado como parte de um sistema maior.</span></div>
+        <div class="item"><strong><i class="fas fa-eye"></i> Visão de Futuro (Foresight)</strong><span>O líder serve ao presente, mas antecipa crises. Usa lições do passado e a realidade atual para projetar consequências futuras.</span></div>
+        <div class="item"><strong><i class="fas fa-seedling"></i> Foco no Desenvolvimento (Growth)</strong><span>O sucesso do líder é medido pelo número de pessoas que se tornaram líderes ou especialistas altamente qualificados sob sua influência.</span></div>
+      </div>
+      <p class="texto-menor" style="margin-top: 0.2rem;">Esses pilares, quando praticados com consistência, transformam a autoridade formal em influência real e duradoura.</p>
+    </section>
+
+    <!-- ===== 3. COMPORTAMENTO EMOCIONAL ===== -->
+    <section id="emocional">
+      <h2><i class="fas fa-brain"></i> 3. Comportamento Emocional: A Paciência e o Autocontrole</h2>
+      <p>
+        O motor interno do líder servidor é a <strong>Inteligência Emocional</strong>. Sem ela, o modelo colapsa sob a pressão de metas e prazos. Aprendi da pior forma que a reação impulsiva destrói a confiança construída em meses.
+      </p>
+      <h3><i class="fas fa-hourglass-half"></i> A Paciência como Ativo Estratégico</h3>
+      <p>
+        Na liderança servidora, a paciência não é tolerância com a mediocridade, mas sim o entendimento de que processos de maturação humana levam tempo. Quando um liderado falha, o líder servidor não pune imediatamente; ele transforma o erro em um <strong>laboratório de aprendizado</strong> — o que chamamos de <em>segurança psicológica</em>.
+      </p>
+      <div class="destaque-box">
+        <p><i class="fas fa-egg"></i> <strong>Regulação do Ego:</strong> Exige o desapego de precisar "levar o crédito". O líder brilha através do brilho do time. Essa é uma das lições mais difíceis, mas também as mais libertadoras.</p>
+      </div>
+      <h3><i class="fas fa-hand-holding-heart"></i> Atributos Emocionais Chave</h3>
+      <ul class="lista-icones">
+        <li><i class="fas fa-bandaid"></i> <strong>Cura (Healing):</strong> Habilidade de reconstruir climas organizacionais tóxicos ou motivar pessoas que passaram por traumas corporativos (demissões em massa, lideranças abusivas).</li>
+        <li><i class="fas fa-handshake"></i> <strong>Persuasão vs. Coerção:</strong> Convencer as pessoas pelo propósito e pela lógica, nunca pelo "porque eu sou o chefe".</li>
+        <li><i class="fas fa-shield-heart"></i> <strong>Vulnerabilidade estratégica:</strong> Admitir incertezas e pedir ajuda quando necessário — isso humaniza o líder e fortalece a confiança.</li>
+      </ul>
+      <p class="texto-menor">Em momentos de crise, lembre-se: a paciência e o autocontrole são os alicerces que mantêm o time unido.</p>
+    </section>
+
+    <!-- ===== 4. IMPLEMENTAÇÃO ===== -->
+    <section id="implementacao">
+      <h2><i class="fas fa-tools"></i> 4. Guia de Implementação e Observações Práticas</h2>
+      <div class="destaque-box box-aviso">
+        <p><i class="fas fa-triangle-exclamation"></i> <strong> Observação Crítica:</strong> Liderança servidora <strong>não</strong> é ser "bonzinho" ou abrir mão de metas. É ser rigoroso com os padrões e processos, mas profundamente humano com as pessoas.</p>
+      </div>
+
+      <h3><i class="fas fa-list-check"></i> Na Prática Diária (O que fazer)</h3>
+      <ul class="lista-icones">
+        <li><i class="fas fa-question-circle"></i> <strong>Pergunta de Ouro:</strong> Substitua o <em>"O que você fez hoje?"</em> por <em>"O que está travando o seu trabalho e como eu posso te ajudar a resolver?"</em>.</li>
+        <li><i class="fas fa-people-arrows"></i> <strong>Reuniões de 1:1 (One-on-Ones):</strong> Use 70% do tempo para ouvir os desafios de carreira e pessoais do colaborador e apenas 30% para o status das demandas.</li>
+        <li><i class="fas fa-diagram-project"></i> <strong>Descentralização:</strong> Delegue a tomada de decisão para a ponta mais próxima do cliente. Confie no time.</li>
+        <li><i class="fas fa-rotate-left"></i> <strong>Feedback contínuo:</strong> Não espere a avaliação anual. Crie rituais semanais de feedback construtivo e reconhecimento.</li>
+        <li><i class="fas fa-hand-sparkles"></i> <strong>Remova obstáculos:</strong> Seja o "guarda-chuva" que protege o time de ruídos externos e burocracias desnecessárias.</li>
+      </ul>
+      <p>
+        Além disso, <strong>seja vulnerável</strong>: admitir que não sabe de tudo abre espaço para que o time também seja honesto. Compartilhe suas próprias dificuldades e aprendizados — isso gera conexão genuína.
+      </p>
+    </section>
+
+    <!-- ===== 5. PLANO DE AÇÃO 30-60-90 (NOVO) ===== -->
+    <section id="plano-acao">
+      <h2><i class="fas fa-calendar-check"></i> 5. Plano de Ação 30-60-90 Dias</h2>
+      <p>Transforme a teoria em prática com este roteiro progressivo. Adapte conforme a realidade da sua equipe.</p>
+      <div class="plano-acao">
+        <div class="periodo">
+          <h4><i class="fas fa-hourglass-start"></i> Primeiros 30 dias</h4>
+          <ul>
+            <li>Realizar 1:1 com todos os liderados (escuta ativa).</li>
+            <li>Mapear os principais obstáculos relatados pela equipe.</li>
+            <li>Definir metas pessoais de escuta e feedback.</li>
+          </ul>
+        </div>
+        <div class="periodo">
+          <h4><i class="fas fa-hourglass-half"></i> 60 dias</h4>
+          <ul>
+            <li>Delegar uma decisão importante para a equipe (autonomia).</li>
+            <li>Implementar rituais de feedback semanal.</li>
+            <li>Identificar uma oportunidade de desenvolvimento para cada liderado.</li>
+          </ul>
+        </div>
+        <div class="periodo">
+          <h4><i class="fas fa-hourglass-end"></i> 90 dias</h4>
+          <ul>
+            <li>Avaliar métricas de engajamento (eNPS, turnover).</li>
+            <li>Ajustar o plano com base no feedback da equipe.</li>
+            <li>Celebrar vitórias e compartilhar aprendizados.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="texto-menor">Lembre-se: a liderança servidora é uma jornada, não um destino. Revise seu plano a cada trimestre.</p>
+    </section>
+
+    <!-- ===== 6. MÉTRICAS ===== -->
+    <section id="metricas">
+      <h2><i class="fas fa-chart-line"></i> 6. Métricas, Indicadores e Resultados Esperados</h2>
+      <p>
+        O impacto de um líder servidor é altamente mensurável e reflete diretamente na <strong>última linha do balanço</strong> (bottom line). Na minha experiência, esses são os indicadores que mais se beneficiam:
+      </p>
+      <div class="tabela-metricas">
+        <table>
+          <thead>
+            <tr><th><i class="fas fa-gauge-high"></i> Métrica / KRI</th><th><i class="fas fa-bullseye"></i> Impacto da Liderança Servidora</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><i class="fas fa-user-slash"></i> <strong>Turnover (Rotatividade)</strong></td><td>Redução drástica. Talentos permanecem por causa do ambiente de desenvolvimento.</td></tr>
+            <tr><td><i class="fas fa-star"></i> <strong>eNPS (Employee Net Promoter Score)</strong></td><td>Elevação dos índices de recomendação da empresa pelos colaboradores.</td></tr>
+            <tr><td><i class="fas fa-lightbulb"></i> <strong>Inovação e Ideias Novas</strong></td><td>Aumento do volume de iniciativas que partem da base, gerado pela segurança psicológica.</td></tr>
+            <tr><td><i class="fas fa-coins"></i> <strong>Custo de Contratação (CAC)</strong></td><td>Diminuição, pois a empresa se torna um ímã de talentos (Employer Branding).</td></tr>
+            <tr><td><i class="fas fa-clock"></i> <strong>Produtividade sustentável</strong></td><td>Redução de horas extras e burnout, com aumento da qualidade das entregas.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="texto-menor">Lembre-se: números são consequência de uma cultura bem construída. Quando as pessoas se sentem seguras e valorizadas, os resultados aparecem naturalmente.</p>
+    </section>
+
+    <!-- ===== 7. REFERÊNCIAS E CASES ===== -->
+    <section id="referencias">
+      <h2><i class="fas fa-book"></i> 7. Referências Teóricas e Cases de Sucesso</h2>
+      <p>
+        Para aprofundar os conceitos e levar para o comitê executivo, estas são as bases que mais me ajudaram — e que continuam inspirando minha prática:
+      </p>
+      <div class="grid-referencias">
+        <div class="ref-item"><i class="fas fa-user-graduate"></i> <strong>Robert K. Greenleaf (1970)</strong><span>Criador do termo "servant leadership". Seu ensaio <em>"The Servant as Leader"</em> é a fundação. O teste máximo: <em>"Aqueles que são servidos crescem como pessoas?"</em></span></div>
+        <div class="ref-item"><i class="fas fa-user-tie"></i> <strong>James C. Hunter</strong><span>Autor de <em>"O Monge e o Executivo"</em>. Essencial para traduzir o conceito de forma simples, focando na diferença entre poder e autoridade.</span></div>
+        <div class="ref-item"><i class="fas fa-microphone"></i> <strong>Simon Sinek</strong><span>Autor de <em>"Líderes Comem por Último"</em>. Atualiza o conceito para a neurobiologia da confiança nas empresas modernas.</span></div>
+      </div>
+
+      <h3><i class="fas fa-building"></i> Cases de Sucesso Corporativo</h3>
+      <div class="grid-cases">
+        <div class="case"><i class="fas fa-plane"></i> <strong>Southwest Airlines</strong><br>Herb Kelleher (ex-CEO) construiu a companhia aérea mais lucrativa dos EUA focando primeiro nos funcionários, sabendo que estes serviriam perfeitamente aos clientes.</div>
+        <div class="case"><i class="fas fa-university"></i> <strong>Synovus Financial</strong><br>Instituição financeira que frequentemente figura nas listas de melhores empresas para se trabalhar, focando integralmente na cultura de servir seus colaboradores e a comunidade.</div>
+        <div class="case"><i class="fas fa-store"></i> <strong>Starbucks</strong><br>Howard Schultz sempre enfatizou que o sucesso vem de tratar os funcionários como parceiros, oferecendo benefícios e ouvindo suas vozes.</div>
+      </div>
+      <p class="texto-menor" style="margin-top: 1rem;">Esses exemplos mostram que a liderança servidora não é teoria — é prática que gera resultados reais e sustentáveis.</p>
+    </section>
+
+    <!-- ===== 8. ARMADILHAS (EXPANDIDA) ===== -->
+    <section id="armadilhas">
+      <h2><i class="fas fa-triangle-exclamation"></i> 8. Armadilhas Comuns e Como Evitá-las</h2>
+      <p>
+        Mesmo com boa intenção, o líder servidor pode cair em armadilhas que comprometem sua eficácia. Conheça as principais e como desviar:
+      </p>
+      <div class="tabela-armadilhas">
+        <table>
+          <thead>
+            <tr><th>Armadilha</th><th>Sintoma</th><th>Solução Prática</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><i class="fas fa-hand-holding-heart"></i> Ser "bonzinho" demais</td>
+              <td>Equipe relaxa com prazos, baixa performance</td>
+              <td>Definir metas claras e dar feedback com dados, sempre respeitoso</td>
+            </tr>
+            <tr>
+              <td><i class="fas fa-microphone"></i> Ouvir sem agir</td>
+              <td>Colaboradores param de compartilhar problemas</td>
+              <td>Criar um board público de "ações tomadas a partir do feedback"</td>
+            </tr>
+            <tr>
+              <td><i class="fas fa-hand"></i> Fazer tudo pelo time</td>
+              <td>Dependência excessiva, time não se desenvolve</td>
+              <td>Ensine a pescar, não dê o peixe. Capacite e delegue</td>
+            </tr>
+            <tr>
+              <td><i class="fas fa-chart-simple"></i> Ignorar resultados</td>
+              <td>Baixa performance é tolerada</td>
+              <td>Combine cuidado com metas e cobrança saudável</td>
+            </tr>
+            <tr>
+              <td><i class="fas fa-users"></i> Esquecer de si mesmo</td>
+              <td>Líder esgotado, sem energia para servir</td>
+              <td>Pratique autocuidado, desenvolva sua resiliência e peça ajuda</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="destaque-box">
+        <p><i class="fas fa-lightbulb"></i> <strong>Meu aprendizado:</strong> A melhor forma de evitar essas armadilhas é ter um mentor ou um grupo de pares com quem você possa compartilhar desafios e receber feedback honesto sobre sua atuação.</p>
+      </div>
+    </section>
+
+    <!-- ===== 9. GLOSSÁRIO (NOVO) ===== -->
+    <details class="glossario" id="glossario">
+      <summary><i class="fas fa-book-open"></i> Glossário de Termos</summary>
+      <div class="conteudo-glossario">
+        <div><span class="termo">Burnout</span> – <span class="definicao">Estado de exaustão física e mental causado por estresse crônico no trabalho.</span></div>
+        <div><span class="termo">eNPS</span> – <span class="definicao">Employee Net Promoter Score, métrica que mede a probabilidade de um colaborador recomendar a empresa como local de trabalho.</span></div>
+        <div><span class="termo">Foresight</span> – <span class="definicao">Capacidade de antecipar consequências futuras com base no passado e presente, um dos pilares da liderança servidora.</span></div>
+        <div><span class="termo">KRI</span> – <span class="definicao">Key Result Indicator, indicador-chave de resultado que mede o impacto estratégico.</span></div>
+        <div><span class="termo">Segurança Psicológica</span> – <span class="definicao">Crença de que se pode falar, errar e expor ideias sem medo de punição ou humilhação.</span></div>
+        <div><span class="termo">Turnover</span> – <span class="definicao">Taxa de rotatividade de funcionários em um período.</span></div>
+      </div>
+    </details>
+
+    <!-- ===== CHAMADA FINAL ===== -->
+    <div class="chamada-final">
+      <h3><i class="fas fa-rocket"></i> Pronto para transformar sua liderança?</h3>
+      <p>
+        Este estudo é um ponto de partida. A jornada do líder servidor é contínua, e cada dia traz uma nova oportunidade de servir melhor. 
+        Se você quer aprofundar esse tema ou compartilhar suas próprias experiências, estou à disposição. 
+        Conecte-se comigo no <a href="https://wa.me/5513988301094" target="_blank">WhatsApp</a> ou visite meu <a href="https://www.linkedin.com/in/silvanio-gois/" target="_blank">Linkedin</a> para mais conteúdos.
+      </p>
+    </div>
+
+  </div><!-- fim .conteudo-principal -->
+
+  <!-- ===== RODAPÉ ===== -->
+  <footer class="rodape">
+    <div class="direitos">
+      <i class="far fa-copyright"></i> 2026 Silvanio Gois - Todos os direitos reservados
+    </div>
+    <div class="link-site">
+      <a href="https://www.silvaniogois.com.br/" target="_blank" rel="noopener noreferrer">
+        <i class="fas fa-globe"></i> ir ao Site →
+      </a>
+    </div>
+  </footer>
+
+</div><!-- fim .container -->
+
+<!-- ===== BOTÃO VOLTAR AO TOPO ===== -->
+<button class="btn-topo" id="btnTopo" aria-label="Voltar ao topo">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+  (function() {
+    // ----- BARRA DE PROGRESSO -----
+    const progressBar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', function() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+    });
+
+    // ----- BOTÃO TOPO -----
+    const btn = document.getElementById('btnTopo');
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 300) {
+        btn.classList.add('visivel');
+      } else {
+        btn.classList.remove('visivel');
+      }
+    });
+    btn.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ----- DIAGNÓSTICO RÁPIDO -----
+    const btnDiag = document.getElementById('btnDiagnostico');
+    const resultadoDiv = document.getElementById('resultadoDiagnostico');
+    const textoResultado = document.getElementById('diagnosticoTexto');
+
+    btnDiag.addEventListener('click', function() {
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      const q3 = document.querySelector('input[name="q3"]:checked');
+
+      if (!q1 || !q2 || !q3) {
+        alert('Responda todas as perguntas para ver o resultado.');
+        return;
+      }
+
+      const pontos = parseInt(q1.value) + parseInt(q2.value) + parseInt(q3.value);
+      let perfil = '';
+      if (pontos >= 5) {
+        perfil = '🌟 Você já pratica muitos aspectos da liderança servidora! Continue refinando e compartilhando suas experiências.';
+      } else if (pontos >= 3) {
+        perfil = '📈 Você está no caminho certo, mas há oportunidades claras de melhoria. Foque em ouvir mais e remover obstáculos.';
+      } else {
+        perfil = '🔄 Seu estilo ainda é muito tradicional. Comece praticando a escuta ativa e perguntando "como posso ajudar?" — a mudança começa com pequenos gestos.';
+      }
+      textoResultado.textContent = perfil;
+      resultadoDiv.classList.add('visivel');
+    });
+
+    // ----- IMPRIMIR / SALVAR COMO PDF -----
+    document.getElementById('btnPrintPDF').addEventListener('click', function() {
+      window.print();
+    });
+  })();
+</script>
+
+</body>
+</html>
